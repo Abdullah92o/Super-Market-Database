@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `SuperMarket`.`LoyaltyCard` (
   CONSTRAINT `fk_LoyaltyCard_Customer1`
     FOREIGN KEY (`Customer_CustomerId`)
     REFERENCES `SuperMarket`.`Customer` (`CustomerId`)
-    ON DELETE NO ACTION
+    ON DELETE  CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -89,19 +89,19 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SuperMarket`.`Order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SuperMarket`.`Order` (
-  `OrderId` INT NOT NULL,
-  `TotalAmount` FLOAT NULL,
-  `Date` DATE NULL,
-  `IsPaid` TINYINT NULL COMMENT 'MySQL does not have a dedicated Boolean data type like some other database systems do (e.g., PostgreSQL has a BOOLEAN data type). Instead, MySQL typically uses TINYINT to represent boolean values. This is a common practice in relational database systems.\'',
-  `Customer_CustomerId` INT NOT NULL,
-  PRIMARY KEY (`OrderId`, `Customer_CustomerId`),
-  CONSTRAINT `fk_Order_Customer1`
-    FOREIGN KEY (`Customer_CustomerId`)
-    REFERENCES `SuperMarket`.`Customer` (`CustomerId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `SuperMarket`. `ordes` (
+	`OrderId` INT(11) NOT NULL,
+	`TotalAmount` FLOAT NULL DEFAULT NULL,
+	`Date` DATE NULL DEFAULT NULL,
+	`IsPaid` TINYINT(4) NULL DEFAULT NULL COMMENT 'MySQL does not have a dedicated Boolean data type like some other database systems do (e.g., PostgreSQL has a BOOLEAN data type). Instead, MySQL typically uses TINYINT to represent boolean values. This is a common practice in relational database systems.\',
+	`Customer_CustomerId` INT(11) NOT NULL,
+	PRIMARY KEY (`OrderId`, `Customer_CustomerId`) USING BTREE,
+	INDEX `fk_Order_Customer1` (`Customer_CustomerId`) USING BTREE,
+	CONSTRAINT `fk_Order_Customer1` FOREIGN KEY (`Customer_CustomerId`) REFERENCES `customer` (`CustomerId`) ON UPDATE NO ACTION ON DELETE CASCADE
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
 
 
 -- -----------------------------------------------------
@@ -128,25 +128,20 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SuperMarket`.`Order contain Proudct`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SuperMarket`.`Order contain Proudct` (
-  `Proudct_ProudctId` INT NOT NULL,
-  `Order_OrderId` INT NOT NULL,
-  `Order_Custumer_CustomerId` INT NOT NULL,
-  `Quantity` VARCHAR(45) NULL,
-  PRIMARY KEY (`Proudct_ProudctId`, `Order_OrderId`, `Order_Custumer_CustomerId`),
-  CONSTRAINT `fk_Proudct_has_Order_Proudct1`
-    FOREIGN KEY (`Proudct_ProudctId`)
-    REFERENCES `SuperMarket`.`Proudct` (`ProudctId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Proudct_has_Order_Order1`
-    FOREIGN KEY (`Order_OrderId` , `Order_Custumer_CustomerId`)
-    REFERENCES `SuperMarket`.`Order` (`OrderId` , `Customer_CustomerId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `SuperMarket`.`order contain proudct` (
+	`Proudct_ProudctId` INT(11) NOT NULL,
+	`Order_OrderId` INT(11) NOT NULL,
+	`Order_Custumer_CustomerId` INT(11) NOT NULL,
+	`Quantity` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`Proudct_ProudctId`, `Order_OrderId`, `Order_Custumer_CustomerId`) USING BTREE,
+	INDEX `fk_Proudct_has_Order_Order1` (`Order_OrderId`, `Order_Custumer_CustomerId`) USING BTREE,
+	CONSTRAINT `fk_Proudct_has_Order_Order1` FOREIGN KEY (`Order_OrderId`, `Order_Custumer_CustomerId`) REFERENCES `ordes` (`OrderId`, `Customer_CustomerId`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_Proudct_has_Order_Proudct1` FOREIGN KEY (`Proudct_ProudctId`) REFERENCES `proudct` (`ProudctId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
 
-USE `SuperMarket` ;
 
 -- -----------------------------------------------------
 -- Placeholder table for view `SuperMarket`.`view1`
