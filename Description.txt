@@ -1,0 +1,9 @@
+
+Description:
+We're developing a Supermarket that lets us buy products from
+suppliers who sell to multiple stores and then store items in
+various warehouses, allowing customers to place orders
+effortlessly, customize orders with different products, and offer
+personalized loyalty cards that give our customers special offers
+plus a point system . Our focus is on accuracy, security, user-
+friendliness, and strict compliance with all regulations.2
