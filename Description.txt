@@ -6,4 +6,7 @@ various warehouses, allowing customers to place orders
 effortlessly, customize orders with different products, and offer
 personalized loyalty cards that give our customers special offers
 plus a point system . Our focus is on accuracy, security, user-
-friendliness, and strict compliance with all regulations.2
+friendliness, and strict compliance with all regulations.
+
+
+
